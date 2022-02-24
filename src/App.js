@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Dropzone from "react-dropzone";
+import Papa from "papaparse";
+import readXlsxFile from "read-excel-file";
 
-function App() {
+export default function App() {
+  const [data, setdata] = useState({
+    alldata: [],
+    name: "",
+  });
+  const [show, setshow] = useState(false);
+
+  const inputChange = (value) => {
+    console.log(value);
+
+    readXlsxFile(value)?.then((rows) => {
+      rows?.map((w) => {
+        console.log(w[0]);
+      });
+    });
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {show ? <></> : <><input
+        type="file"
+        id="input"
+        onChange={(e) => {
+          inputChange(e.target.files[0]);
+        }}
+      /></>}
+      
     </div>
   );
 }
-
-export default App;
